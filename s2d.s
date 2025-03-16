@@ -53,12 +53,18 @@ codifica:
    move  $s1, $a1 
 while:
    lb    $t0, 0($s0)
-   lb    $t0, 0($t0)
+   # lb    $t0, 0($t0) # 1r error: este lb sobra
    beq   $t0, $zero, fi_while
    la    $a0, alfabet
-   move  $a1, $s1
+   
+   #move  $a1, $s1 # 2n error: esta usando $s1 (*pfraseout) en vez de $s0 (*pfrasein)
+   move $a1, $s0
+   
    jal   g  
-   sb    $v0, 0($s0)  
+   
+   #sb    $v0, 0($s0) # 3r error: pues lo contrario del error 2n xd
+   sb    $v0, 0($s1) 
+   
    addiu $s0, $s0, 1
    addiu $s1, $s1, 1
    addiu $s2, $s2, 1  
